@@ -1,29 +1,35 @@
 function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, 0)}`;
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
-
-const refs = {
-  input: document.querySelector("#controls input"),
-  createBtn: document.querySelector("[data-create]"),
-  destroyBtn: document.querySelector("[data-destroy"),
-  boxContainer: document.getElementById("boxes"),
+const inputNumberEl = document.querySelector('input[type=number]');
+const btnCreateEl = document.querySelector('button[data-create]');
+const btnDestroyEl = document.querySelector('button[data-destroy]');
+const containerBoxes = document.querySelector('#boxes');
+containerBoxes.setAttribute('style', 'display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;')
+btnCreateEl.addEventListener('click', () => addBox());
+btnDestroyEl.addEventListener('click', () => {
+  destroyBoxes();
+  btnCreateEl.removeEventListener('click', addBox);
+});
+function addBox() {
+  if (inputNumberEl.value <= 0 || inputNumberEl > 100) {
+    alert('Помилка! Введіть число від 1 до 100')
+  } else {
+    let heightWidth = 30;
+    let fontSize = 6;
+    const boxes = [];
+    for (let i = 0; i < inputNumberEl.value; i += 1) {
+      const box = document.createElement('div');
+      box.setAttribute('style', `background-color: ${getRandomHexColor()}; height: ${heightWidth}px; width: ${heightWidth}px; font-size: ${fontSize}px; border-radius: 25% 10%; text-align: center;`);
+      box.textContent = `${getRandomHexColor()}`;
+      heightWidth += 10;
+      fontSize += 1;
+      boxes.push(box);
+    }
+    containerBoxes.append(...boxes);
+  }
+  inputNumberEl.value = '0';
 }
-const createBoxes = amount => {
-  let width = 20;
-  let height = 20;
-  for (let i = 1; i <= amount; i += 1){
-    refs.boxContainer.insertAdjacentHTML("afterbegin", `<div data-box></div>`);
-    const containers = document.querySelector("[data-box]");
-    containers.style.cssText = `width: ${width += 10}px ; height: ${height += 10}px; background-color: ${getRandomHexColor()}`;
-  };
-    refs.boxContainer.style.cssText = 'display:flex; justify-content:flex-start;';
-  };
-  const handler = (event)=> {
-    createBoxes(refs.input.value)
-      };
-    refs.createBtn.addEventListener("click", handler);
-const destroyBoxes = () => refs.boxContainer.innerHTML = '';
-refs.createBtn.addEventListener("click", handler);
-refs.destroyBtn.addEventListener("click", destroyBoxes);
+function destroyBoxes() {
+  containerBoxes.innerHTML = '';
+}
