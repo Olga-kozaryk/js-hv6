@@ -23,8 +23,9 @@ button {
   cursor: pointer;
 }
 .gallery {
-  display: flex;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 25px;
 }
 
 .li-item {
@@ -32,6 +33,15 @@ button {
 list-style: none;
 }
 .imgsize {
-  width: 320px;
-  height: 270px;
+  width: 570px;
+  height: 550px;
+}
+
+.boxes{
+  display: flex;
+  margin-top: 25px;
+  gap: 5px;
+  justify-content: center; 
+  align-items: center;
+  flex-wrap: wrap;
 }
